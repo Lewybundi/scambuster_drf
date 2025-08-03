@@ -1,11 +1,14 @@
 from rest_framework.views import APIView
 from reports_app.models import ScamPost,SupportPost
+from .permissions import PostPermission
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from .serializers import ScamPostSerializer,SupportPostSerializer
 from rest_framework.response import Response
 from rest_framework.exceptions import ValidationError
 from rest_framework import status
 from rest_framework import generics
 class ScamPostsList(APIView):
+    permission_classes = [IsAuthenticatedOrReadOnly]
     def get(self,request):
         scamposts = ScamPost.objects.all()
         serializer = ScamPostSerializer(scamposts,many=True)
@@ -45,6 +48,7 @@ class SupportList(generics.ListCreateAPIView):
     serializer_class = SupportPostSerializer
 class SupportDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = SupportPost.objects.all()
+    permission_classes =[PostPermission]
     serializer_class = SupportPostSerializer
 class CreateSupport(generics.CreateAPIView):
      queryset = SupportPost.objects.all()
