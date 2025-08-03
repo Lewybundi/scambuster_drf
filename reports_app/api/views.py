@@ -1,5 +1,5 @@
 from rest_framework.views import APIView
-from reports_app.models import ScamPost,SupportPost
+from reports_app.models import ScamPost,SupportPost,Downvote
 from .permissions import PostPermission
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from .serializers import ScamPostSerializer,SupportPostSerializer
@@ -65,3 +65,31 @@ class CreateSupport(generics.CreateAPIView):
          else:
              scampost.save()
              serializer.save(scampost=scampost,supporter=supporter)
+class DownvoteToggle(APIView):
+   """
+    Toggle downvote for a ScamPost. If user has already downvoted, remove the downvote.
+    If user hasn't downvoted, create a new downvote.
+    """
+   permission_classes = [IsAuthenticatedOrReadOnly]
+   def post(self,request,pk):
+       try:
+           scampost = ScamPost.objects.get(pk=pk)
+       except ScamPost.DoesNotExist:
+           return Response({"error": "Post not found"}, status=status.HTTP_404_NOT_FOUND)
+       user = request.user
+       try:
+           downvote = Downvote.objects.get(user=user,post=scampost)
+           downvote.delete()
+           return Response({
+            "message": "Downvote removed",
+            "is_downvoted": False,
+            "downvote_count": scampost.downvotes.count()
+           })
+       except Downvote.DoesNotExist:
+           # If downvote doesn't exist, create it
+            downvote = Downvote.objects.create(user=user, post=scampost)
+            return Response({
+                "message": "Post downvoted",
+                "is_downvoted": True,
+                "downvote_count": scampost.downvotes.count()
+            }, status=status.HTTP_201_CREATED)

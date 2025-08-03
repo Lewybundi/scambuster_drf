@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from reports_app.models import ScamPost,SupportPost
+from reports_app.models import ScamPost,SupportPost,Downvote
 
 class SupportPostSerializer(serializers.ModelSerializer):
     class Meta:
@@ -19,14 +19,27 @@ class SupportPostSerializer(serializers.ModelSerializer):
             return value.strip()
         
         
-         
 class ScamPostSerializer(serializers.ModelSerializer):
      support_evidence = SupportPostSerializer(many=True, read_only=True)
      country_name = serializers.CharField(source='country.name', read_only=True)
+     downvote_count = serializers.SerializerMethodField()
+     is_downvoted = serializers.SerializerMethodField()
      class Meta:
          model = ScamPost
          fields =[
             'id', 'scammer_name', 'country_name', 
-            'isglobal', 'created_at','support_evidence'
+            'isglobal', 'created_at','support_evidence','downvote_count','is_downvoted'
         ]
          read_only_fields = ['id', 'created_at', 'support_evidence',]
+     def get_downvote_count(self,obj):
+         return obj.downvotes.count()
+     def get_is_downvoted(self, obj):
+        request = self.context.get('request')
+        if request and request.user.is_authenticated:
+            return Downvote.objects.filter(user=request.user, post=obj).exists()
+        return False
+class DownvoteSerializer(serializers.ModelSerializer):
+      class Meta:
+          model = Downvote
+          fields =['id', 'post', 'created_at']
+          read_only =['user', 'created_at']
