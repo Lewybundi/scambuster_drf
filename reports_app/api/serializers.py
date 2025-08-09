@@ -4,7 +4,6 @@ from reports_app.models import ScamPost,SupportPost,Downvote
 class SupportPostSerializer(serializers.ModelSerializer):
     class Meta:
         model = SupportPost
-        #fields = "__all__"
         exclude = ['scampost','supporter']
         read_only_fields=["id","created_at"]
         def validate_evidence_link(self, value):
@@ -20,7 +19,7 @@ class SupportPostSerializer(serializers.ModelSerializer):
         
         
 class ScamPostSerializer(serializers.ModelSerializer):
-     support_evidence = SupportPostSerializer(many=True, read_only=True)
+     #support_evidence = SupportPostSerializer(many=True, read_only=True)
      country_name = serializers.CharField(source='country.name', read_only=True)
      downvote_count = serializers.SerializerMethodField()
      is_downvoted = serializers.SerializerMethodField()
@@ -28,7 +27,7 @@ class ScamPostSerializer(serializers.ModelSerializer):
          model = ScamPost
          fields =[
             'id', 'scammer_name', 'country_name', 
-            'isglobal', 'created_at','support_evidence','downvote_count','is_downvoted'
+            'isglobal','incidence_description' ,'created_at','downvote_count','is_downvoted'
         ]
          read_only_fields = ['id', 'created_at', 'support_evidence',]
      def get_downvote_count(self,obj):
@@ -38,6 +37,18 @@ class ScamPostSerializer(serializers.ModelSerializer):
         if request and request.user.is_authenticated:
             return Downvote.objects.filter(user=request.user, post=obj).exists()
         return False
+    
+class SupportDetailSerializer(serializers.ModelSerializer):
+      support_evidence = SupportPostSerializer(many=True, read_only=True)
+      country_name = serializers.CharField(source='country.name', read_only=True)
+      class Meta:
+          model = ScamPost
+          fields = [
+            'id', 'scammer_name', 'country_name', 
+            'isglobal','incidence_description','support_evidence','created_at'
+        ]
+          
+          
 class DownvoteSerializer(serializers.ModelSerializer):
       class Meta:
           model = Downvote
