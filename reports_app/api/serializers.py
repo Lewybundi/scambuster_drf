@@ -1,3 +1,22 @@
+"""
+Django REST Framework Serializers for Reports Application
+
+This module contains serializers for converting model instances to/from JSON format
+for the reports application API. The serializers handle data validation, transformation,
+and presentation for scam posts, support posts, and downvotes.
+
+Key Models:
+- ScamPost: Main reports about scams with location and description
+- SupportPost: User-generated evidence supporting scam reports
+- Downvote: User downvotes for scam posts
+
+Features:
+- Custom validation for URLs and text content
+- Nested serialization for related objects
+- Dynamic fields based on user authentication
+- Method fields for computed values
+"""
+
 from rest_framework import serializers
 from reports_app.models import ScamPost,SupportPost,Downvote
 
