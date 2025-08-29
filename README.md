@@ -276,21 +276,12 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - Django Countries for location data handling  
 - The open-source community for inspiration and tools
 
-## 📞 Support
-
-If you have any questions or run into issues:
-
-- 📝 [Open an issue](https://github.com/yourusername/scam-reports-api/issues)
-- 📧 Email: your.email@example.com
-- 💬 [Discussions](https://github.com/yourusername/scam-reports-api/discussions)
-
----
 
 <div align="center">
 
 **⭐ Star this repository if it helped you! ⭐**
 
-Made with ❤️ by [Your Name](https://github.com/yourusername)
+Made with ❤️ by [lewybundi](https://github.com/yourusername)
 
 [Report Bug](https://github.com/yourusername/scam-reports-api/issues) · [Request Feature](https://github.com/yourusername/scam-reports-api/issues) · [Documentation](https://github.com/yourusername/scam-reports-api/wiki)
 
