@@ -203,46 +203,6 @@ scam_reports_project/
 └── manage.py
 ```
 
-## 📝 Additional Notes
-
-<details>
-<summary>🔧 Technical Details</summary>
-
-- Uses Django Countries for standardized location data
-- JSON fields store social media profile information  
-- Token-based authentication provides stateless API access
-- Proper HTTP status codes and error handling
-- Custom pagination for optimal performance
-- Foreign key relationships with proper cascade handling
-
-</details>
-
-<details>
-<summary>⚠️ Known Issues</summary>
-
-1. Missing error handling in some PUT/DELETE operations  
-2. `startsWith` should be `startswith` in URL validation (Python syntax)
-3. Some serializer validation methods need proper indentation
-4. Consider adding request rate limiting for production
-
-</details>
-
-<details>
-<summary>🚀 Roadmap</summary>
-
-- [ ] Image upload support for evidence files
-- [ ] Real-time notifications for new reports  
-- [ ] Advanced search and filtering capabilities
-- [ ] Report categorization system
-- [ ] User reputation and credibility scoring
-- [ ] API rate limiting and throttling
-- [ ] Email verification for user registration
-- [ ] Export functionality for reports
-- [ ] Admin dashboard with analytics
-- [ ] Mobile app integration
-
-</details>
-
 ## 🤝 Contributing
 
 We welcome contributions! Please see our [contributing guidelines](CONTRIBUTING.md) for details.
@@ -281,7 +241,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 **⭐ Star this repository if it helped you! ⭐**
 
-Made with ❤️ by [lewybundi](https://github.com/yourusername)
+Made with ❤️ by [Lewybundi](https://github.com/yourusername)
 
 [Report Bug](https://github.com/yourusername/scam-reports-api/issues) · [Request Feature](https://github.com/yourusername/scam-reports-api/issues) · [Documentation](https://github.com/yourusername/scam-reports-api/wiki)
 
