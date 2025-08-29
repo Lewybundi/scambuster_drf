@@ -41,7 +41,7 @@ class ScamPostsList(APIView):
     """
     permission_classes = [IsAuthenticatedOrReadOnly]
     def get(self,request):
-        scamposts = ScamPost.objects.all()
+        scamposts = ScamPost.objects.all().order_by('-created_at')
         paginator = ScamPostListPagination()
         paginated_scamposts = paginator.paginate_queryset(scamposts,request,view=self)
         
@@ -51,7 +51,7 @@ class ScamPostsList(APIView):
         serializer = ScamPostSerializer(data=request.data)
         if serializer.is_valid():
           serializer.save()
-          return Response(serializer.data,status=status.HTTP_201_CREATED)
+          return Response(serializer.data, status=status.HTTP_201_CREATED)
         else:
             return(serializer.errors)
         
